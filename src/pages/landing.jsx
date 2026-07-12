@@ -1,36 +1,92 @@
-import React from 'react'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import React, { useState } from 'react'
+import { ArrowRight, Link2, Sparkles } from 'lucide-react'
+import { Badge } from "@/components/ui/badge"
+import { Field, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import { useNavigate } from 'react-router-dom'
+
 function LandingPage() {
+  const [longURL, setlongURL] = useState('')
+  const navigate = useNavigate()
+
+  const handleshorten = (e) => {
+    e.preventDefault()
+
+    if (longURL) {
+      navigate(`/auth?CreateNew=${encodeURIComponent(longURL)}`)
+    }
+  }
   return (
-    <div>
-      <Accordion defaultValue={["shipping"]} className="max-w-lg">
-      <AccordionItem value="shipping">
-        <AccordionTrigger>What are your shipping options?</AccordionTrigger>
-        <AccordionContent>
-          We offer standard (5-7 days), express (2-3 days), and overnight
-          shipping. Free shipping on international orders.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="returns">
-        <AccordionTrigger>What is your return policy?</AccordionTrigger>
-        <AccordionContent>
-          Returns accepted within 30 days. Items must be unused and in original
-          packaging. Refunds processed within 5-7 business days.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="support">
-        <AccordionTrigger>How can I contact customer support?</AccordionTrigger>
-        <AccordionContent>
-          Reach us via email, live chat, or phone. We respond within 24 hours
-          during business days.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <div className="min-h-screen w-full bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.24),transparent_35%),linear-gradient(180deg,#050816_0%,#070b18_45%,#03050b_100%)] px-6 py-10 text-white">
+      <main className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-5xl items-center justify-center">
+        <section className="w-full max-w-3xl rounded-4xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-10">
+          <div className="flex justify-center">
+            <Badge className="gap-2 border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-cyan-100">
+              <Sparkles className="h-4 w-4" />
+              built for fast sharing
+            </Badge>
+          </div>
+
+          <div className="mt-6 text-center">
+            <h1 className="text-balance text-4xl font-black tracking-tight text-white sm:text-6xl">
+              the only url shortener
+              <br />
+              you&rsquo;ll ever need
+            </h1>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base">
+              Create clean, short links in seconds. Keep your workflow simple,
+              your links readable, and your landing page centered where it should
+              be.
+            </p>
+          </div>
+
+          <form
+            className="mx-auto mt-8 max-w-2xl rounded-3xl border border-white/10 bg-slate-950/70 p-4 shadow-lg shadow-black/20 sm:p-6"
+            onSubmit={handleshorten}
+          >
+            <Field>
+              <FieldLabel htmlFor="input-badge" className="mb-2 text-left text-sm font-medium text-slate-200">
+                Website URL
+              </FieldLabel>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="relative flex-1">
+                  <Link2 className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                  <Input
+                    id="input-badge"
+                    type="url"
+                    value={longURL}
+                    onChange={(e) => setlongURL(e.target.value)}
+                    placeholder="https://api.example.com/"
+                    className="h-14 border-white/10 bg-white/5 pl-11 text-base text-white placeholder:text-slate-500 focus-visible:border-cyan-400/60 focus-visible:ring-cyan-400/20"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-cyan-400 px-6 font-semibold text-slate-950 transition hover:bg-cyan-300"
+                >
+                  Shorten link
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </Field>
+          </form>
+
+          <div className="mt-8 grid gap-3 text-left sm:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-sm font-semibold text-white">Clean links</p>
+              <p className="mt-1 text-sm text-slate-300">Turn long URLs into short, shareable links.</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-sm font-semibold text-white">Fast workflow</p>
+              <p className="mt-1 text-sm text-slate-300">Paste, shorten, copy, and move on.</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-sm font-semibold text-white">Centered design</p>
+              <p className="mt-1 text-sm text-slate-300">The whole hero now sits in the middle of the screen.</p>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   )
 }

@@ -17,11 +17,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 function Header() {
-    const user = true;
+    const user = false;
     return (
-        <nav className='flex justify-between items-center mx-10 py-4 px-6 bg-[#030712] text-white'>
+        <nav className='mx-auto flex w-full max-w-7xl items-center justify-between rounded-full border border-white/10 bg-white/5 px-5 py-4 text-white shadow-lg shadow-black/20 backdrop-blur-xl sm:px-6'>
             <Link to='/' className='logo'>
-                <img src="url_shortener_logo.png" className='max-w-15  max-h-13' alt="logoUrl" />
+                <img src="logo url.png" className='max-w-15  max-h-13' alt="logoUrl" />
             </Link>
 
             <div className="flex gap-2  justify-end items-center">
@@ -37,7 +37,7 @@ function Header() {
                                 <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-[#030712] border border-white" >
+                            <DropdownMenuContent className="border border-white/10 bg-slate-950/95 text-white shadow-2xl shadow-black/40 backdrop-blur-xl" >
                             <DropdownMenuItem  className="text-white">
                                 <UserIcon />
                                 Profile
@@ -57,7 +57,7 @@ function Header() {
                             </DropdownMenuItem >
                         </DropdownMenuContent>
                     </DropdownMenu>
-                ) : (<Button className="rounded-full bg-amber-50 font-bold text-black">login</Button>)
+                ) : (<Button className=" p-6 rounded-full bg-amber-50 font-bold  text-black">login</Button>)
                 }
             </div>
 

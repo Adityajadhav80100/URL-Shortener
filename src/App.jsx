@@ -5,6 +5,7 @@ import Dashboard from "./pages/dashboard"
 import Links from "./pages/link"
 import RedirectLink from "./pages/redirect-link"
 import AppLayout from "./layouts/app-layout"
+import AuthPage from "./pages/Auth"
 
 function App() {
   const routes = createBrowserRouter([
@@ -18,6 +19,10 @@ function App() {
          {
           path : "/dashboard" ,
           element : <Dashboard/>
+         },
+         {
+          path : "/auth" ,
+          element : <AuthPage/>
          },
          {
           path : "/links/:id" ,
