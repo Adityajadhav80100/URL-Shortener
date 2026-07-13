@@ -1,24 +1,21 @@
 import React from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
- 
+import { Link, useSearchParams } from 'react-router-dom'
+import Login from './login'
+import SignUp from './signUp'
+ import { getCurrentUser } from '@/db/apiAuth'
 function AuthPage() {
   const [searchParams] = useSearchParams();
-  const handlesignup = () => {
-    useNavigate("/auth");
-  }
-  return (
+  const mode = searchParams.get('mode') || 'login'
+  const {user} = getCurrentUser();
+
   
-    <div>
-       <h1 className='text-6xl font-bold'>
-        {searchParams.get('CreateNew') ?  
-        <div className='flex flex-col gap-4 p-9 items-center justify-center'>
-           <h1 className=''>
-          hold up login first .....
-           </h1>  
-            <button onClick={()=>{handlesignup()}}>login/signup</button>
-        </div>
-        : "login/signup to continue"}
-       </h1>
+  return (
+    <div className="flex min-h-[calc(100vh-6rem)] items-center justify-center px-4 py-8">
+      {searchParams.get('CreateNew') && !user  &&  mode === 'signup' ? (
+        <SignUp />
+      ) : (
+        <Login />
+      )}
     </div>
   )
 }

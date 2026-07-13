@@ -1,11 +1,13 @@
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 import LandingPage from "./pages/landing"
 import Dashboard from "./pages/dashboard"
 import Links from "./pages/link"
 import RedirectLink from "./pages/redirect-link"
 import AppLayout from "./layouts/app-layout"
 import AuthPage from "./pages/Auth"
+import SignUp from "./pages/signUp"
+import UrlProvider from "./context"
 
 function App() {
   const routes = createBrowserRouter([
@@ -18,26 +20,33 @@ function App() {
          },
          {
           path : "/dashboard" ,
-          element : <Dashboard/>
+          element : <UrlProvider><Dashboard/></UrlProvider>
          },
          {
           path : "/auth" ,
           element : <AuthPage/>
          },
          {
+          path : "/signUp" ,
+          element : <Navigate to="/auth?mode=signup" replace />
+         },
+         {
           path : "/links/:id" ,
-          element : <Links/>
+          element : <UrlProvider><Links/></UrlProvider>
          },
          {
           path : "/:id" ,
-          element : <RedirectLink/>
+          element : <UrlProvider><RedirectLink/></UrlProvider>
          },
       ]
 
     }
   ])
-  return (
-  < RouterProvider router={routes}/>
+  return ( 
+    <UrlProvider> 
+
+      < RouterProvider router={routes}/>
+    </UrlProvider>
   )
 }
 
