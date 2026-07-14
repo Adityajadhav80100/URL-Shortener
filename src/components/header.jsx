@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from './ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -16,8 +16,30 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { UrlState } from '@/context'
+import { logOut } from '@/db/apiAuth'
+
+
 function Header() {
-    const user = false;
+    const navigate = useNavigate()
+    const { user , fetchUser } = UrlState()
+
+    const handleLogin = ()=>{
+        navigate('/auth?mode=login')
+    }
+    const handleLogout = async () => {
+        try{
+            await logOut();
+            
+            await fetchUser();
+            navigate('/');
+
+        } catch (error) {
+            console.error('Error occurred while logging out:', error.message);
+        }
+    }
+
+
     return (
         <nav className='mx-auto flex w-full max-w-7xl items-center justify-between rounded-full border border-white/10 bg-white/5 px-5 py-4 text-white shadow-lg shadow-black/20 backdrop-blur-xl sm:px-6'>
             <Link to='/' className='logo'>
@@ -52,12 +74,12 @@ function Header() {
                             </DropdownMenuItem >
                             <DropdownMenuSeparator />
                             <DropdownMenuItem  variant="destructive">
-                                <LogOutIcon />
-                                Log out
+                                <LogOutIcon  />
+                               <button onClick={() => { handleLogout() }}> Log out</button>
                             </DropdownMenuItem >
                         </DropdownMenuContent>
                     </DropdownMenu>
-                ) : (<Button className=" p-6 rounded-full bg-amber-50 font-bold  text-black">login</Button>)
+                ) : ( <Button onClick={() => {handleLogin()}} className=" p-6 rounded-full bg-amber-50 font-bold  text-black" >login</Button>)
                 }
             </div>
 

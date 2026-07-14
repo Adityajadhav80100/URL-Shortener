@@ -9,10 +9,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card" 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Error from "@/components/error"
+import Error from "@/components/error"   
 import * as yup from "yup"
 import useFetch from "@/hooks/api-fetch"
 import {signUP } from "@/db/apiAuth"
@@ -23,7 +23,7 @@ function SignUp(){ // Renamed function to SignUp
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
-  })
+  })  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -84,6 +84,22 @@ function SignUp(){ // Renamed function to SignUp
         </CardHeader>
         <CardContent>
           <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-sm font-medium text-slate-200">
+                Name
+              </Label>
+              <Input
+                id="Name"
+                type="Name"
+                onChange={handleInputChange}
+                name="Name"
+                value={formData.name}
+                placeholder="write your name"
+                required
+                className="h-12 border-white/15 bg-white/10 text-white placeholder:text-slate-400 focus-visible:border-cyan-400/60 focus-visible:ring-cyan-400/20"
+              />
+            </div>
+               { errors.name &&  <p className="text-red-400 text-sm">{errors.name}</p> }
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium text-slate-200">
                 Email

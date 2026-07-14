@@ -8,44 +8,45 @@ import AppLayout from "./layouts/app-layout"
 import AuthPage from "./pages/Auth"
 import SignUp from "./pages/signUp"
 import UrlProvider from "./context"
+import RequireAuth from "./components/requireAuth"
 
 function App() {
   const routes = createBrowserRouter([
     {
-      element:<AppLayout/> ,
-      children:[
-         {
-          path : "/" ,
-          element : <LandingPage/>
-         },
-         {
-          path : "/dashboard" ,
-          element : <UrlProvider><Dashboard/></UrlProvider>
-         },
-         {
-          path : "/auth" ,
-          element : <AuthPage/>
-         },
-         {
-          path : "/signUp" ,
-          element : <Navigate to="/auth?mode=signup" replace />
-         },
-         {
-          path : "/links/:id" ,
-          element : <UrlProvider><Links/></UrlProvider>
-         },
-         {
-          path : "/:id" ,
-          element : <UrlProvider><RedirectLink/></UrlProvider>
-         },
+      element: <AppLayout />,
+      children: [
+        {
+          path: "/",
+          element: <LandingPage />
+        },
+        {
+          path: "/dashboard",
+          element: <UrlProvider><RequireAuth><Dashboard /></RequireAuth></UrlProvider>
+        },
+        {
+          path: "/auth",
+          element: <AuthPage />
+        },
+        {
+          path: "/signUp",
+          element: <Navigate to="/auth?mode=signup" replace />
+        },
+        {
+          path: "/links/:id",
+          element: <UrlProvider><RequireAuth><Links /></RequireAuth></UrlProvider>
+        },
+        {
+          path: "/:id",
+          element: <UrlProvider><RedirectLink /></UrlProvider>
+        },
       ]
 
     }
   ])
-  return ( 
-    <UrlProvider> 
+  return (
+    <UrlProvider>
 
-      < RouterProvider router={routes}/>
+      < RouterProvider router={routes} />
     </UrlProvider>
   )
 }

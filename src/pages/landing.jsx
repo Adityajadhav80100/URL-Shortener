@@ -4,22 +4,27 @@ import { Badge } from "@/components/ui/badge"
 import { Field, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from 'react-router-dom'
+import { UrlState } from '../context'
 
 function LandingPage() {
   const [longURL, setlongURL] = useState('')
   const navigate = useNavigate()
+  const { user } = UrlState()
 
   const handleshorten = (e) => {
     e.preventDefault()
 
     if (longURL) {
-      navigate(`/auth?CreateNew=${encodeURIComponent(longURL)}`)
+      const destination = user ? '/dashboard' : '/auth'
+      navigate(`${destination}?CreateNew=${encodeURIComponent(longURL)}`)
     }
   }
   return (
     <div className="min-h-screen w-full bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.24),transparent_35%),linear-gradient(180deg,#050816_0%,#070b18_45%,#03050b_100%)] px-6 py-10 text-white">
       <main className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-5xl items-center justify-center">
-        <section className="w-full max-w-3xl rounded-4xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-10">
+        <section className="relative w-full max-w-5xl rounded-4xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-10">
+          <div className="pointer-events-none absolute inset-0 rounded-4xl bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.16),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))]" />
+          <div className="relative z-10 flex flex-col">
           <div className="flex justify-center">
             <Badge className="gap-2 border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-cyan-100">
               <Sparkles className="h-4 w-4" />
@@ -41,7 +46,7 @@ function LandingPage() {
           </div>
 
           <form
-            className="mx-auto mt-8 max-w-2xl rounded-3xl border border-white/10 bg-slate-950/70 p-4 shadow-lg shadow-black/20 sm:p-6"
+            className="mx-auto mt-8 w-full max-w-3xl rounded-3xl border border-white/10 bg-slate-950/70 p-4 shadow-lg shadow-black/20 sm:p-6"
             onSubmit={handleshorten}
           >
             <Field>
@@ -84,6 +89,7 @@ function LandingPage() {
               <p className="text-sm font-semibold text-white">Centered design</p>
               <p className="mt-1 text-sm text-slate-300">The whole hero now sits in the middle of the screen.</p>
             </div>
+          </div>
           </div>
         </section>
       </main>

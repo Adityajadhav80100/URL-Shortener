@@ -7,16 +7,25 @@ export const login = ({email , password}) => {
     })
 }
 
-export const getCurrentUser = async ()=>{
-    const { data: { user  } , error } = await supabase.auth.getUser()
-
-    if(error) {
+export const logOut = async () => {
+    const { error } = await supabase.auth.signOut();
+     
+    if (error) {
         throw error.message;
-    }else {
+    }
+};
 
-        return user.findOne({ where: { email: user.email } })
+export const getCurrentUser = async () => {
+    const {
+        data: { user },
+        error
+    } = await supabase.auth.getUser()
+
+    if (error) {
+        return null
     }
 
+    return user
 }
 
 export const signUP = async({email , password , name , pofile_pic})=>{
