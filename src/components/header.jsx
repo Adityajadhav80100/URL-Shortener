@@ -45,7 +45,7 @@ function Header() {
     return (
         <nav className='mx-auto flex w-full max-w-7xl items-center justify-between rounded-full border border-white/10 bg-white/5 px-5 py-4 text-white shadow-lg shadow-black/20 backdrop-blur-xl sm:px-6'>
             <Link to='/' className='logo'>
-                <img src="logo url.png" className='max-w-15  max-h-13' alt="logoUrl" />
+                <img src="/logo url.png" className='w-10 h-10 sm:w-12 sm:h-12' alt="logoUrl" />
             </Link>
 
             <div className="flex gap-2  justify-end items-center">
@@ -84,7 +84,7 @@ function Header() {
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                ) : (<Button onClick={() => { handleLogin() }} className=" p-6 rounded-full bg-amber-50 font-bold  text-black" >login</Button>)
+                ) : (<Button onClick={() => { handleLogin() }} className="rounded-full bg-amber-50 px-4 py-2 font-bold text-black sm:p-6" >login</Button>)
                 }
             </div>
 

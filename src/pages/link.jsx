@@ -3,6 +3,7 @@ import { getClicksForUrl } from '@/db/apiClicks'
 import { deleteUrl, getUrl } from '@/db/apiurls'
 import useFetch from '@/hooks/api-fetch'
 import LinkStatsPanel from '@/components/stats/link-stats-panel'
+import { getShortLinkUrl } from '@/lib/base-url'
 import { Copy, Download, LinkIcon, Trash2 } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -86,8 +87,10 @@ function Links() {
     link = url?.custom_url ? url?.custom_url : url?.short_url
   }
 
+  const shortLinkUrl = getShortLinkUrl(link)
+
   return (
-    <div className="grid h-[calc(100vh-8rem)] gap-6 overflow-hidden p-4 lg:grid-cols-[minmax(0,460px)_minmax(0,1fr)]">
+    <div className="grid gap-6 p-4 lg:h-[calc(100vh-8rem)] lg:grid-cols-[minmax(0,460px)_minmax(0,1fr)] lg:overflow-hidden">
       <section className="flex h-full min-h-0 flex-col gap-4 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 text-white shadow-xl shadow-black/20 backdrop-blur-sm sm:p-5">
         {(loading || loadingStats) && (
           <h1 className="text-sm text-slate-400">Loading...</h1>
@@ -109,12 +112,12 @@ function Links() {
               </span>
 
               <a
-                href={'https://Linkzip.in/' + link}
+                href={shortLinkUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="block break-all text-xs text-cyan-300 transition hover:text-cyan-200 sm:text-sm"
               >
-                https://Linkzip.in/{link}
+                {shortLinkUrl}
               </a>
 
               <a
@@ -135,9 +138,7 @@ function Links() {
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <button
                 className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition hover:bg-white/10 hover:text-white sm:px-4 sm:py-2 sm:text-sm"
-                onClick={() =>
-                  navigator.clipboard.writeText('https://LinkZip.in/' + link)
-                }
+                onClick={() => navigator.clipboard.writeText(shortLinkUrl)}
               >
                 <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Copy

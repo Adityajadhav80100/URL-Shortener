@@ -21,6 +21,7 @@ import { Card } from './ui/card'
 import * as yup from 'yup';
 import useFetch from '@/hooks/api-fetch'
 import { createUrl } from '@/db/apiurls'
+import { baseUrl } from '@/lib/base-url'
 
 function CreateUrl() {
     const { user } = UrlState();
@@ -130,7 +131,7 @@ function CreateUrl() {
                         <Label htmlFor="Customlink">Custom Link </Label>
                         <div className="flex items-center space-x-2">
                             <Card className="p-2">
-                                linkzip.in
+                                {baseUrl.replace(/\/$/, '')}
                             </Card>
                             <Input
                                 id="customUrl"

@@ -37,7 +37,6 @@ function LocationChart({ data = [] }) {
                 tickLine={false}
                 axisLine={false}
                 tick={{ fill: '#94a3b8', fontSize: 11 }}
-                interval={0}
               />
               <YAxis
                 tickLine={false}

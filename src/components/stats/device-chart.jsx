@@ -24,8 +24,8 @@ function DeviceChart({ data = [] }) {
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                outerRadius={74}
-                innerRadius={42}
+                outerRadius="80%"
+                innerRadius="50%"
                 paddingAngle={3}
               >
                 {data.map((entry, index) => (

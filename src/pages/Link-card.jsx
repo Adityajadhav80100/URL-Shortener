@@ -1,5 +1,6 @@
 import { deleteUrl } from "@/db/apiurls"
 import useFetch from "@/hooks/api-fetch"
+import { getShortLinkUrl } from "@/lib/base-url"
 
 import {
   Copy,
@@ -12,6 +13,8 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 function Linkcard({ url, fetchUrls }) {
+  const shortLink = url?.custom_url ? url.custom_url : url?.short_url
+  const shortLinkUrl = getShortLinkUrl(shortLink)
 
   const {
     loading: loadingDelete,
@@ -103,10 +106,7 @@ function Linkcard({ url, fetchUrls }) {
 
               <span className="hover:text-cyan-300 hover:underline">
 
-                https://LinkZip.in/
-                {url?.custom_url
-                  ? url.custom_url
-                  : url?.short_url}
+                {shortLinkUrl}
 
               </span>
 
@@ -144,11 +144,7 @@ function Linkcard({ url, fetchUrls }) {
                 className="text-sm text-slate-400 hover:text-cyan-300"
                 onClick={() =>
                   navigator.clipboard.writeText(
-                    `https://LinkZip.in/${
-                      url?.custom_url
-                        ? url.custom_url
-                        : url?.short_url
-                    }`
+                    shortLinkUrl
                   )
                 }
               >
