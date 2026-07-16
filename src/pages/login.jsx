@@ -32,7 +32,7 @@ function Login() {
       [name]: value
     }))
   }
- 
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
@@ -42,7 +42,7 @@ function Login() {
         email: yup.string().email("Invalid email format").required("Email is required"),
         password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required")
       })
-        
+
       await schema.validate(formData, { abortEarly: false })
 
       const response = await fnlogin(formData)
@@ -66,10 +66,10 @@ function Login() {
   }
 
   const { data, loading, error, fn: fnlogin } = useFetch(login)
-  const [useParam] = useSearchParams(); 
-  
-const longlink = useParam.get("CreateNew") 
-  
+  const [useParam] = useSearchParams();
+
+  const longlink = useParam.get("CreateNew")
+
   return (
     <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/15 bg-white/5 p-1 shadow-2xl shadow-black/40 backdrop-blur-2xl">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.16),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))]" />
@@ -99,7 +99,7 @@ const longlink = useParam.get("CreateNew")
                 className="h-12 border-white/15 bg-white/10 text-white placeholder:text-slate-400 focus-visible:border-cyan-400/60 focus-visible:ring-cyan-400/20"
               />
             </div>
-               { errors.email &&  <p className="text-red-400 text-sm">{errors.email}</p> }
+            {errors.email && <p className="text-red-400 text-sm">{errors.email}</p>}
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-4">
@@ -124,7 +124,7 @@ const longlink = useParam.get("CreateNew")
               />
 
             </div>
-             { errors.password &&   <p className="text-red-400 text-sm">{errors.password}</p> }
+            {errors.password && <p className="text-red-400 text-sm">{errors.password}</p>}
 
             {errors.form && <p className="text-red-400 text-sm">{errors.form}</p>}
 
@@ -144,7 +144,12 @@ const longlink = useParam.get("CreateNew")
           </Button>
           <p className="text-center text-sm text-slate-300">
             New here?{' '}
-            <Link to="/auth?mode=signup" className="font-medium text-white underline-offset-4 hover:underline">
+            <Link to={
+              longlink
+                ? `/auth?mode=signup&CreateNew=${encodeURIComponent(longlink)}`
+                : "/auth?mode=signup"
+                     } 
+            className="font-medium text-white underline-offset-4 hover:underline">
               Sign up
             </Link>
           </p>

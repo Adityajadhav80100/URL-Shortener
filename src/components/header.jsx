@@ -12,7 +12,7 @@ import {
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem ,
+    DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -22,20 +22,22 @@ import { logOut } from '@/db/apiAuth'
 
 function Header() {
     const navigate = useNavigate()
-    const { user , fetchUser } = UrlState()
+    const { user } = UrlState()
 
-    const handleLogin = ()=>{
+    const handleLogin = () => {
         navigate('/auth?mode=login')
     }
     const handleLogout = async () => {
-        try{
-            await logOut();
-            
-            await fetchUser();
-            navigate('/');
+        try {
+            await logOut()
+
+            navigate('/')
 
         } catch (error) {
-            console.error('Error occurred while logging out:', error.message);
+            console.error(
+                'Error occurred while logging out:',
+                error.message
+            )
         }
     }
 
@@ -52,34 +54,37 @@ function Header() {
                         <DropdownMenuTrigger className="rounded-full p-0 bg-transparent border-0 cursor-pointer">
                             <Avatar className='w-10 h-10'>
                                 <AvatarImage
-                                    src="https://github.com/shadcn.png"
+                                    src={
+                                        user?.user_metadata?.profile_pic ||
+                                        "https://github.com/shadcn.png"
+                                    }
                                     alt="@shadcn"
                                     className="grayscale "
                                 />
                                 <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                         </DropdownMenuTrigger>
-                            <DropdownMenuContent className="border border-white/10 bg-slate-950/95 text-white shadow-2xl shadow-black/40 backdrop-blur-xl" >
-                            <DropdownMenuItem  className="text-white">
+                        <DropdownMenuContent className="border border-white/10 bg-slate-950/95 text-white shadow-2xl shadow-black/40 backdrop-blur-xl" >
+                            <DropdownMenuItem className="text-white">
                                 <UserIcon />
                                 Profile
                             </DropdownMenuItem >
-                            <DropdownMenuItem className="text-white" >
+                            <DropdownMenuItem onClick={() => navigate('/dashboard')} className="text-white" >
                                 <LinkIcon />
                                 My Links
                             </DropdownMenuItem >
-                            <DropdownMenuItem className="text-white">
-                                <SettingsIcon />
-                                Settings
-                            </DropdownMenuItem >
+                            
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem  variant="destructive">
-                                <LogOutIcon  />
-                               <button onClick={() => { handleLogout() }}> Log out</button>
-                            </DropdownMenuItem >
+                            <DropdownMenuItem
+                                variant="destructive"
+                                onClick={handleLogout}
+                            >
+                                <LogOutIcon />
+                                Log out
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                ) : ( <Button onClick={() => {handleLogin()}} className=" p-6 rounded-full bg-amber-50 font-bold  text-black" >login</Button>)
+                ) : (<Button onClick={() => { handleLogin() }} className=" p-6 rounded-full bg-amber-50 font-bold  text-black" >login</Button>)
                 }
             </div>
 

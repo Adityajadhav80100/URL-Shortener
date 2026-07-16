@@ -32,11 +32,11 @@ function App() {
           element: <Navigate to="/auth?mode=signup" replace />
         },
         {
-          path: "/links/:id",
+          path: "/link/:id",
           element: <UrlProvider><RequireAuth><Links /></RequireAuth></UrlProvider>
         },
         {
-          path: "/:id",
+          path: "/:shortUrl",
           element: <UrlProvider><RedirectLink /></UrlProvider>
         },
       ]

@@ -9,44 +9,58 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card" 
+} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Error from "@/components/error"   
+import Error from "@/components/error"
 import * as yup from "yup"
 import useFetch from "@/hooks/api-fetch"
-import {signUP } from "@/db/apiAuth"
+import { signUP } from "@/db/apiAuth"
+import { UrlState } from "@/context"
 
-function SignUp(){ // Renamed function to SignUp
+function SignUp() { // Renamed function to SignUp
   const navigate = useNavigate()
   const [errors, setErrors] = React.useState({})
   const [formData, setFormData] = React.useState({
+    name: "",
     email: "",
     password: "",
-  })  
+    profile_pic: null
+  })
+  const { fetchUser } = UrlState()
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target
+    const { name, value, files } = event.target
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: files ? files[0] : value
     }))
   }
- 
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
       setErrors({})
 
       const schema = yup.object().shape({
+        name: yup
+          .string()
+          .trim()
+          .min(2, "Name must be at least 2 characters")
+          .required("Name is required"),
         email: yup.string().email("Invalid email format").required("Email is required"),
-        password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required")
+        password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+        profile_pic: yup
+          .mixed()
+          .nullable()
       })
-        
+
       await schema.validate(formData, { abortEarly: false })
 
       const response = await fnsignUP(formData)
 
+      await fetchUser()
+      
       if (response?.error) {
         setErrors({ form: response.error.message || "SignUp failed" })
         return
@@ -67,7 +81,7 @@ function SignUp(){ // Renamed function to SignUp
 
   const { data, loading, error, fn: fnsignUP } = useFetch(signUP) // Corrected fn name and passed signUP
   const [searchParams] = useSearchParams(); // Renamed useParam to searchParams
-  
+
   const longlink = searchParams.get("CreateNew") // Used searchParams
 
   return (
@@ -89,17 +103,18 @@ function SignUp(){ // Renamed function to SignUp
                 Name
               </Label>
               <Input
-                id="Name"
-                type="Name"
+                id="name"
+                type="name"
                 onChange={handleInputChange}
-                name="Name"
+                name="name"
                 value={formData.name}
                 placeholder="write your name"
                 required
                 className="h-12 border-white/15 bg-white/10 text-white placeholder:text-slate-400 focus-visible:border-cyan-400/60 focus-visible:ring-cyan-400/20"
               />
             </div>
-               { errors.name &&  <p className="text-red-400 text-sm">{errors.name}</p> }
+            {errors.name && <p className="text-red-400 text-sm">{errors.name}</p>}
+
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium text-slate-200">
                 Email
@@ -115,7 +130,24 @@ function SignUp(){ // Renamed function to SignUp
                 className="h-12 border-white/15 bg-white/10 text-white placeholder:text-slate-400 focus-visible:border-cyan-400/60 focus-visible:ring-cyan-400/20"
               />
             </div>
-               { errors.email &&  <p className="text-red-400 text-sm">{errors.email}</p> }
+            {errors.email && <p className="text-red-400 text-sm">{errors.email}</p>}
+
+            <div className="space-y-2">
+              <Label htmlFor="profile_pic" className="text-sm font-medium text-slate-200">
+                Profile pic
+              </Label>
+              <Input
+                id="profile_pic"
+                type="file"
+                onChange={handleInputChange}
+                name="profile_pic"
+
+                accept="image/*"
+
+                className="h-12 border-white/15 bg-white/10 text-white placeholder:text-slate-400 focus-visible:border-cyan-400/60 focus-visible:ring-cyan-400/20"
+              />
+            </div>
+            {errors.profile_pic && <p className="text-red-400 text-sm">{errors.profile_pic}</p>}
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-4">
@@ -140,7 +172,7 @@ function SignUp(){ // Renamed function to SignUp
               />
 
             </div>
-             { errors.password &&   <p className="text-red-400 text-sm">{errors.password}</p> }
+            {errors.password && <p className="text-red-400 text-sm">{errors.password}</p>}
 
             {errors.form && <p className="text-red-400 text-sm">{errors.form}</p>}
 
@@ -160,13 +192,18 @@ function SignUp(){ // Renamed function to SignUp
           </Button>
           <p className="text-center text-sm text-slate-300">
             Already have an account?{' '}
-            <Link to="/auth?mode=login" className="font-medium text-white underline-offset-4 hover:underline">
+            <Link to={
+              longlink
+                ? `/auth?mode=login&CreateNew=${encodeURIComponent(longlink)}`
+                : "/auth?mode=login"
+            }
+              className="font-medium text-white underline-offset-4 hover:underline">
               Login
             </Link>
           </p>
         </CardFooter>
       </Card>
-    </div>
+    </div >
   )
 }
 
