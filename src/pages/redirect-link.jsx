@@ -22,15 +22,20 @@ function RedirectLink() {
     useEffect(() => {
         fn(shortUrl);
     }, [shortUrl]);
+useEffect(() => {
+  if (!data) return;
 
-    useEffect(() => {
-        if (data) {
-            fnStats({
-                id: data.id,
-                original_url: data.original_url,
-            });
-        }
-    }, [data]);
+  const redirect = async () => {
+    await fnStats({
+      id: data.id,
+      original_url: data.original_url,
+    });
+
+    window.location.href = data.original_url;
+  };
+
+  redirect();
+}, [data]);
 
     if (loading || loadingStats) {
         return <h1>Redirecting...</h1>;

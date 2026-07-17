@@ -35,6 +35,7 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    if (loading) return;
     try {
       setErrors({})
 
@@ -127,9 +128,12 @@ function Login() {
             {errors.password && <p className="text-red-400 text-sm">{errors.password}</p>}
 
             {errors.form && <p className="text-red-400 text-sm">{errors.form}</p>}
-
-            <Button type="submit" className="h-12 w-full rounded-2xl bg-cyan-400 text-slate-950 hover:bg-cyan-300">
-              Login
+            <Button
+              type="submit"
+              disabled={loading}
+              className="h-12 w-full rounded-2xl bg-cyan-400 text-slate-950 hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Logging in..." : "Login"}
             </Button>
           </form>
         </CardContent>
@@ -148,8 +152,8 @@ function Login() {
               longlink
                 ? `/auth?mode=signup&CreateNew=${encodeURIComponent(longlink)}`
                 : "/auth?mode=signup"
-                     } 
-            className="font-medium text-white underline-offset-4 hover:underline">
+            }
+              className="font-medium text-white underline-offset-4 hover:underline">
               Sign up
             </Link>
           </p>

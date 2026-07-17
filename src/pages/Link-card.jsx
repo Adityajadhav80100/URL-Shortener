@@ -97,8 +97,7 @@ function Linkcard({ url, fetchUrls }) {
 
             <Link
               to={`/link/${url?.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
+             
               className="block break-all text-sm text-slate-300 transition-colors"
             >
 

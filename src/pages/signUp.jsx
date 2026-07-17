@@ -39,6 +39,7 @@ function SignUp() { // Renamed function to SignUp
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    if (loading) return;
     try {
       setErrors({})
 
@@ -60,7 +61,7 @@ function SignUp() { // Renamed function to SignUp
       const response = await fnsignUP(formData)
 
       await fetchUser()
-      
+
       if (response?.error) {
         setErrors({ form: response.error.message || "SignUp failed" })
         return
@@ -176,8 +177,12 @@ function SignUp() { // Renamed function to SignUp
 
             {errors.form && <p className="text-red-400 text-sm">{errors.form}</p>}
 
-            <Button type="submit" className="h-12 w-full rounded-2xl bg-cyan-400 text-slate-950 hover:bg-cyan-300">
-              SignUp
+            <Button
+              type="submit"
+              disabled={loading}
+              className="h-12 w-full rounded-2xl bg-cyan-400 text-slate-950 hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Creating Account..." : "Sign Up"}
             </Button>
           </form>
         </CardContent>
