@@ -22,10 +22,10 @@ function AuthPage() {
     return <Navigate to={destination} replace />
   }
 
-  
+
   return (
     <div className="flex min-h-[calc(100vh-6rem)] items-center justify-center px-4 py-8">
-      {searchParams.get('CreateNew') && !user  &&  mode === 'signup' ? (
+      {mode === "signup" ? (
         <SignUp />
       ) : (
         <Login />
